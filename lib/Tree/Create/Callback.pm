@@ -81,7 +81,7 @@ connect the parent and children nodes for you.
 
 The callback is called with these arguments:
 
- ($parent, $level, $sibling_order)
+ ($parent, $level, $seniority)
 
 where C<$parent> is the parent node object (or undef if creating the root node,
 which is the first time the callback is called), C<$level> indicates the current
