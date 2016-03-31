@@ -5,6 +5,7 @@ use warnings;
 
 use Test::More 0.98;
 use Tree::Create::Callback::ChildrenPerLevel qw(create_tree_using_callback);
+use Tree::Dump;
 use Tree::Object::Hash;
 
 my $tree;
@@ -15,7 +16,7 @@ my $tree;
             my ($parent, $level, $seniority) = @_;
             (Tree::Object::Hash->new(id => $i++));
         },
-        [3, 2],
+        [3, 2, 3],
     );
 }
 
@@ -32,12 +33,19 @@ my $exp_tree = do {
     my $gc31 = Tree::Object::Hash->new(id=>5); $gc31->parent($c3);
     $c3->children([$gc31]);
 
+    my $ggc111 = Tree::Object::Hash->new(id=>6); $ggc111->parent($gc11);
+    my $ggc112 = Tree::Object::Hash->new(id=>7); $ggc112->parent($gc11);
+    $gc11->children([$ggc111, $ggc112]);
+
+    my $ggc311 = Tree::Object::Hash->new(id=>8); $ggc311->parent($gc31);
+    $gc31->children([$ggc311]);
+
     $root;
 };
 
 is_deeply($tree, $exp_tree) or do {
-    diag "tree: ", explain $tree;
-    diag "expected tree: ", explain $exp_tree;
+    diag "tree:\n", td($tree), "\n";
+    diag "expected tree:\n", td($exp_tree);
 };
 
 # XXX test _args

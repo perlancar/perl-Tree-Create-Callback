@@ -11,6 +11,7 @@ our @EXPORT_OK = qw(create_tree_using_callback);
 sub create_tree_using_callback {
     my ($callback, $num_children_per_level) = @_;
 
+    my $index_per_level = [];
     my $num_children_per_level_so_far = [];
 
     Tree::Create::Callback::create_tree_using_callback(
@@ -26,9 +27,11 @@ sub create_tree_using_callback {
                 $num_children = $num_children_per_level->[0];
             } else {
 
+                my $idx = ++$index_per_level->[$level];
+
                 # at this point we must already have this number of children
                 my $target = sprintf("%.0f",
-                                     ($seniority+1) *
+                                     $idx *
                                          ($num_children_per_level->[$level] /
                                           $num_children_per_level->[$level-1]));
 
